@@ -1,0 +1,41 @@
+#include "bsp_timer.h"
+
+volatile uint32_t g_system_tick	= 0;
+void BSP_Timer_Init(void)
+{
+	// Cấu hình chạy liên tục cho Timer A0 (System Tick 1ms)
+	TACCR0 = 1000 - 1; // 1ms thì 1000 xung
+	TACTL = TASSEL_2 + MC_1 + TACLR;
+	TACCTL0 = CCIE; // cho phép ngắt CCR0
+}
+
+
+// Hàm để App lấy thời gian hiện tại (Get Tick)
+uint32_t BSP_GetTick(void)
+{
+	uint32_t tick;
+	// Tắt ngắt tạm thời để đọc an toàn
+	__disable_interrupt();
+	tick = g_system_tick;
+	__enable_interrupt();
+	return tick;
+}
+
+// Hàm ISR của Timer (Nhịp tim 1ms)
+#pragma vector=TIMER0_A0_VECTOR
+__interrupt	void timerA_ISR(void)
+{
+	// Tăng biến đếm tổng thời gian hệ thống
+	g_system_tick++;
+	
+	static uint8_t tick_5ms = 0;
+	tick_5ms++;
+	if (tick_5ms >= 5)
+	{
+		tick_5ms = 0;
+		BSP_Button_Driver_Scan_All();
+	}
+	
+	// Đánh thức CPU 
+	__bic_SR_register_on_exit(LPM0_bits);
+}
