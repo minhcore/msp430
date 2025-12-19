@@ -50,3 +50,16 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# IAR Embedded Workbench rác
+Debug/
+Release/
+*.dep
+*.tmp
+*.obj
+*.pbi
+*.pbd
+*.browse
+*.pbi.xcl
+*.xcl
+settings/
