@@ -3,9 +3,9 @@
 volatile uint32_t g_system_tick	= 0;
 void BSP_Timer_Init(void)
 {
-	// Cấu hình chạy liên tục cho Timer A0 (System Tick 1ms)
-	TACCR0 = 1000 - 1; // 1ms thì 1000 xung
-	TACTL = TASSEL_2 + MC_1 + TACLR;
+	// Cấu hình chạy liên tục cho Timer A0 (System Tick 10ms)
+	TACCR0 = 19999;
+	TACTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 	TACCTL0 = CCIE; // cho phép ngắt CCR0
 }
 
