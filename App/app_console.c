@@ -1,8 +1,12 @@
 #include "app_console.h"
 #include <string.h> // Để dùng strcmp
-#include "app_controller.h"
 
-static Console_CommandCallback_t p_callback = NULL;
+
+static App_Console_Callback_t console_cb = NULL;
+
+void App_Console_RegisterCallback(App_Console_Callback_t cb) {
+    console_cb = cb; // Lưu lại địa chỉ hàm xử lý từ Controller
+}
 
 // Hàm phụ trợ chuyển string thành int
 static int32_t String_to_Int(char *text) {
@@ -53,9 +57,9 @@ static void Process_Command(void)
 	
 	int32_t value = String_to_Int(tmp2);
 	
-	if (p_callback != NULL)
+	if (console_cb != NULL)
 	{
-		p_callback(tmp1, value);
+		console_cb(tmp1, value);
 	}
 	
 	

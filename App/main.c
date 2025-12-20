@@ -17,7 +17,13 @@ void main (void)
         __bis_SR_register(GIE);
 	while (1)
         {
-          App_Console_Task();
+			App_Console_Task();
+		  
+			if (BSP_10ms_Flag())
+			{
+				// auto delete Flag();
+				App_Controller_Task();
+			}
           
         }
 	

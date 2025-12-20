@@ -1,5 +1,5 @@
 #include "app_servo.h"
-#include <stdlib.h> // Use abs()
+#include <stdlib.h> // Use abs(), labs()
 
 
 

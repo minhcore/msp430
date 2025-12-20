@@ -1,6 +1,7 @@
 #include "app_controller.h"
 #include "bsp_uart.h"
 #include "bsp_pwm.h"
+#include "app_servo.h"
 #include "app_console.h"
 #include <string.h>
 
@@ -12,39 +13,26 @@ void App_Controller_Init(void)
 	BSP_PWM_Init(SERVO_ID_PAN);
 	
 	App_Servo_Init(&Pan_Servo, SERVO_ID_PAN);
+	Pan_Servo.acceleration = TO_FIXED(0.5);
+	Pan_Servo.deceleration = TO_FIXED(0.5);
+	Pan_Servo.v_max = TO_FIXED(1.5);
+	
 	App_Console_Init();
 	
-	App_Console_RegisterCallback(MyController_HandleConsole);
+	App_Console_RegisterCallback(App_Controller_UpdateTarget);
 }
 
-void App_Servo_Controller(Servo_ID_t servo_id, uint8_t angle)
+void App_Controller_Task()
 {
-	Servo_Handle_t *pTargetServo = NULL;
-	
-	// Mapping
-	
-	switch (servo_id)
-	{
-		case SERVO_ID_PAN:
-			pTargetServo = &Pan_Servo;
-			break;
-			
-		default:
-			return;
-	}
-	
-	if (pTargetServo != NULL)
-	{
-		if (BSP_10ms_Flag)
-		App_Servo_Process(pTargetServo);
-	}
+	App_Servo_Process(&Pan_Servo);
 	
 }
 
-void App_MyController_HandleConsole(const char* cmd, int32_t value)
+void App_Controller_UpdateTarget(const char* cmd, int32_t value)
 {
-	if (strcpy(cmd, "PAN") == 0)
+	if (strcmp(cmd, "PAN") == 0)
 	{
-		App_Servo_SetTarget(&Pan_Servo, value);
+		App_Servo_SetTarget(&Pan_Servo, TO_FIXED(value));
 	}
 }
+
