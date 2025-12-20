@@ -2,14 +2,16 @@
 #include <string.h> // Để dùng strcmp
 #include "app_controller.h"
 
+static Console_CommandCallback_t p_callback = NULL;
+
 // Hàm phụ trợ chuyển string thành int
-static uint8_t String_to_Int(char *text) {
+static int32_t String_to_Int(char *text) {
 	char* ptr = text;
 	while (*ptr == ' ') ptr++;
 	
 	if (*ptr == '+') ptr++; 
 	
-	uint8_t result = 0;
+	int32_t result = 0;
 	while (*ptr != '\0') {
 		if (*ptr < '0' || *ptr > '9') break;
 		int digit = (*ptr++) - '0';
@@ -27,8 +29,35 @@ static uint8_t cmd_index = 0;
 
 static void Process_Command(void)
 {
-	uint8_t value = String_to_Int(cmd_buffer);
-	App_Servo_Controller(SERVO_ID_PAN, value);
+	char tmp1[8];
+	char tmp2[8];
+	char* p = cmd;
+	char* p1 = tmp1;
+	char* p2 = tmp2; 
+	while (*p == ' ') p++;
+	while (*p != ' ') 
+	{
+		*p1 = *p;
+		p1++;
+		p++;
+	}
+	*p1 = '\0';
+	p++;
+	while (*p != '\0')
+	{
+		*p2 = *p;
+		p2++;
+		p++;
+	}
+	*p2 = '\0';
+	
+	int32_t value = String_to_Int(tmp2);
+	
+	if (p_callback != NULL)
+	{
+		p_callback(tmp1, value);
+	}
+	
 	
 }
 void App_Console_Init(void) 
@@ -85,5 +114,7 @@ void App_Console_Task (void)
 			}
 		}
 }
+
+
 
 

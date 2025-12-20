@@ -8,6 +8,8 @@
 
 void BSP_Timer_Init(void);
 uint32_t BSP_GetTick(void);
+uint8_t BSP_10ms_Flag(void);
+
 
 #endif
 

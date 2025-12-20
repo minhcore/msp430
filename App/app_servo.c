@@ -94,7 +94,7 @@ void App_Servo_Process(Servo_Handle_t *servo)
 	App_Servo_UpdatePWM(servo);
 }
 
-void App_Servo_SetTarget(Servo_Handle_t *servo, uint16_t angle)
+void App_Servo_SetTarget(Servo_Handle_t *servo, uint32_t angle_q8)
 {
-	servo->target_angle = TO_FIXED(angle);
+	servo->target_angle = angle_q8;
 }

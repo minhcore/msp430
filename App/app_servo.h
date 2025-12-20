@@ -33,6 +33,6 @@ void App_Servo_UpdatePWM(Servo_Handle_t *servo);
 
 void App_Servo_Process(Servo_Handle_t *servo, int32_t angle);
 
-void App_Servo_SetTarget(Servo_Handle_t *servo, uint16_t angle);
+void App_Servo_SetTarget(Servo_Handle_t *servo, uint32_t angle);
 
 #endif
