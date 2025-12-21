@@ -13,6 +13,7 @@
 void App_Console_Init(void);
 void App_Console_Task(void);
 
+
 // Định nghĩa một function pointer
 typedef void (*App_Console_Callback_t)(const char* cmd, int32_t value);
 

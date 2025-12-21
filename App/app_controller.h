@@ -11,4 +11,6 @@ void App_Controller_Task();
 
 void App_Controller_UpdateTarget(const char * cmd, int32_t value);
 
+void App_Send_Log_Data(void);
+
 #endif

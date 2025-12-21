@@ -15,6 +15,8 @@ void main (void)
 	BSP_System_InitClock_16MHZ();
 	App_Controller_Init();
 	
+	
+	
         __bis_SR_register(GIE);
 	while (1)
         {
@@ -24,7 +26,11 @@ void main (void)
 			{
 				// auto delete Flag();
 				App_Controller_Task();
+				App_Send_Log_Data();
+				
 			}
+			
+			
           
         }
 	
