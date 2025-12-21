@@ -33,3 +33,17 @@
 2641	4047	7878193404580000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Exe/blinky_project.d43	978d42d6963e9d97
 213	2896	7880069001860000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/App/app_sensor.r43	96e581a6c8bb379f
 2481	3142	7880069005450000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/Bsp/bsp_pwm.r43	f18c1fe401fe7046
+28	1047	7880072036180000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/Bsp/bsp_adc.r43	8c6a6e61ba25b1b6
+44	1427	7880072038520000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/Bsp/bsp_button.r43	38356cc32a24132c
+70	1752	7880072043530000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/App/app_sensor.r43	96e581a6c8bb379f
+187	1911	7880072042360000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/App/app_button_manager.r43	88c00c890cabf96
+1278	2727	7880072053160000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/App/app_console.r43	528bbd856b9b6b36
+1691	2867	7880072054880000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/Bsp/bsp_pwm.r43	f18c1fe401fe7046
+1959	3089	7880072056210000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/Bsp/bsp_system.r43	9d7850430baf7a5e
+1784	3131	7880072057060000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/Bsp/bsp_gpio.r43	caa7908eccddd687
+2392	3336	7880072061480000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/Bsp/bsp_uart.r43	29cba429b395ef16
+156	741	7880073106680000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/Bsp/bsp_timer.r43	60077bb94408109
+54	794	7880074042630000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/App/app_servo.r43	60f4b1ba7392d16f
+9	485	7880074578340000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/App/main.r43	f9874f48df4a8d82
+34	519	7880074578570000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Obj/App/app_controller.r43	ad0190944819d3bb
+529	1122	7880074585200000	G:/Other computers/My Computer/study_folder_sh/microcontroller/msp430/Project_IAR/Debug/Exe/blinky_project.d43	2f5469ffa41c4d22

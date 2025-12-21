@@ -35,7 +35,7 @@ static void Process_Command(void)
 {
 	char tmp1[8];
 	char tmp2[8];
-	char* p = cmd;
+	char* p = cmd_buffer;
 	char* p1 = tmp1;
 	char* p2 = tmp2; 
 	while (*p == ' ') p++;

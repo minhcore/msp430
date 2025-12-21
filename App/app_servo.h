@@ -27,11 +27,11 @@ typedef struct
 
 void App_Servo_Init(Servo_Handle_t *servo, Servo_ID_t pwm_channel);
 
-void App_Servo_SetAngle(Servo_Handle_t *servo);
+void App_Servo_SetAngle(Servo_Handle_t *servo, uint8_t angle);
 
 void App_Servo_UpdatePWM(Servo_Handle_t *servo);
 
-void App_Servo_Process(Servo_Handle_t *servo, int32_t angle);
+void App_Servo_Process(Servo_Handle_t *servo);
 
 void App_Servo_SetTarget(Servo_Handle_t *servo, uint32_t angle);
 

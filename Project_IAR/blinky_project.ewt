@@ -2638,7 +2638,13 @@
             <name>$PROJ_DIR$\..\App\app_console.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\App\app_controller.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\App\app_sensor.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\App\app_servo.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\App\main.c</name>
@@ -2646,12 +2652,6 @@
     </group>
     <group>
         <name>Bsp</name>
-        <file>
-            <name>$PROJ_DIR$\..\App\app_controller.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\App\app_servo.c</name>
-        </file>
         <file>
             <name>$PROJ_DIR$\..\Bsp\bsp_adc.c</name>
         </file>

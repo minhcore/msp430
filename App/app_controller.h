@@ -7,7 +7,7 @@
 
 void App_Controller_Init(void);
 
-void App_Controller_Task(Servo_ID_t servo_id);
+void App_Controller_Task();
 
 void App_Controller_UpdateTarget(const char * cmd, int32_t value);
 
