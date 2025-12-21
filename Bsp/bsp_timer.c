@@ -1,7 +1,7 @@
 #include "bsp_timer.h"
 
 volatile uint32_t g_system_tick	= 0;
-volatile uint8_t ten_ms_flag = 0;
+static volatile uint8_t ten_ms_flag = 0;
 void BSP_Timer_Init(void)
 {
 	// Cấu hình chạy liên tục cho Timer A0 (System Tick 10ms)
@@ -24,12 +24,14 @@ uint32_t BSP_GetTick(void)
 
 uint8_t BSP_10ms_Flag(void)
 {
-	if (ten_ms_flag == 1)
-	{
-		ten_ms_flag = 0;
-		return 1;
-	}
-	return 0;
+	uint8_t status;
+	
+	__disable_interrupt();
+	status = ten_ms_flag;
+	ten_ms_flag = 0;
+	__enable_interrupt();
+	
+	return status;
 }
 
 // Hàm ISR của Timer (Nhịp tim 10ms)

@@ -21204,12 +21204,12 @@
     "scope": null
   },
   {
-    "ID": "c:@ten_ms_flag",
+    "ID": "c:bsp_timer.c@ten_ms_flag",
     "What": "Variable",
     "defdec": "Def",
     "display": "ten_ms_flag",
     "location": {
-      "column": "18",
+      "column": "25",
       "line": "4",
       "path": "G:\\Other computers\\My Computer\\study_folder_sh\\microcontroller\\msp430\\Bsp\\bsp_timer.c"
     },
@@ -21246,7 +21246,7 @@
     "scope": null
   },
   {
-    "ID": "c:bsp_timer.c@400@F@BSP_GetTick@tick",
+    "ID": "c:bsp_timer.c@407@F@BSP_GetTick@tick",
     "What": "Variable",
     "defdec": "Def",
     "display": "tick",
@@ -21274,13 +21274,27 @@
     "scope": null
   },
   {
+    "ID": "c:bsp_timer.c@602@F@BSP_10ms_Flag@status",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "status",
+    "location": {
+      "column": "10",
+      "line": "27",
+      "path": "G:\\Other computers\\My Computer\\study_folder_sh\\microcontroller\\msp430\\Bsp\\bsp_timer.c"
+    },
+    "name": "status",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
     "ID": "c:@F@timerA_ISR",
     "What": "Function",
     "defdec": "Def",
     "display": "void timerA_ISR(void)",
     "location": {
       "column": "18",
-      "line": "37",
+      "line": "38",
       "path": "G:\\Other computers\\My Computer\\study_folder_sh\\microcontroller\\msp430\\Bsp\\bsp_timer.c"
     },
     "name": "timerA_ISR",
@@ -21288,13 +21302,13 @@
     "scope": null
   },
   {
-    "ID": "c:bsp_timer.c@892@F@timerA_ISR@tick_5ms",
+    "ID": "c:bsp_timer.c@936@F@timerA_ISR@tick_5ms",
     "What": "Variable",
     "defdec": "Def",
     "display": "tick_5ms",
     "location": {
       "column": "17",
-      "line": "44",
+      "line": "45",
       "path": "G:\\Other computers\\My Computer\\study_folder_sh\\microcontroller\\msp430\\Bsp\\bsp_timer.c"
     },
     "name": "tick_5ms",
