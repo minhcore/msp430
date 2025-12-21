@@ -3,6 +3,7 @@
 #include "bsp_uart.h"
 #include "bsp_pwm.h"
 #include "bsp_system.h"
+#include "bsp_timer.h"
 #include "app_console.h"
 #include "app_servo.h"
 #include "app_controller.h"

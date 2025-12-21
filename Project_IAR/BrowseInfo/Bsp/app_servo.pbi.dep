@@ -16,4 +16,6 @@ G:\Other\ computers\My\ Computer\study_folder_sh\microcontroller\msp430\Project_
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\430\inc\dlib\c\xencoding_limits.h \
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\430\inc\dlib\c\DLib_Threads.h \
   G:\Other\ computers\My\ Computer\study_folder_sh\microcontroller\msp430\Project_IAR\..\Bsp\bsp_timer.h \
-  G:\Other\ computers\My\ Computer\study_folder_sh\microcontroller\msp430\Project_IAR\..\Bsp\bsp_button.h
+  G:\Other\ computers\My\ Computer\study_folder_sh\microcontroller\msp430\Project_IAR\..\Bsp\bsp_button.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\430\inc\dlib\c\stdlib.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\430\inc\dlib\c\ysizet.h
