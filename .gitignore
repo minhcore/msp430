@@ -7,3 +7,7 @@ dvt/
 **/Release/
 *.log
 .settings/
+Project_CSS/msp430_app/.ccsproject
+Project_CSS/msp430_app/.ccsproject
+Project_CSS/msp430_app/.cproject
+Project_CSS/msp430_app/targetConfigs/MSP430G2553.ccxml
