@@ -1,75 +1,9 @@
-# Prerequisites
-*.d
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
-
+.metadata/
 .jxbrowser.userdata/
+RemoteSystemsTempFiles/
+dvt/
+**/Debug/
+**/Release/
 *.log
-temp/
-bin/
-obj/
-Project_CSS/msp430_app/.ccsproject
-Project_CSS/msp430_app/.cproject
-Project_CSS/msp430_app/.launches/msp430_app.launch
-Project_CSS/msp430_app/.project
-Project_CSS/msp430_app/.settings/org.eclipse.cdt.codan.core.prefs
-Project_CSS/msp430_app/.settings/org.eclipse.cdt.debug.core.prefs
-Project_CSS/msp430_app/.settings/org.eclipse.core.resources.prefs
-Project_CSS/msp430_app/Debug/ccsObjs.opt
-Project_CSS/msp430_app/Debug/makefile
-Project_CSS/msp430_app/Debug/objects.mk
-Project_CSS/msp430_app/Debug/sources.mk
-Project_CSS/msp430_app/Debug/subdir_rules.mk
-Project_CSS/msp430_app/Debug/subdir_vars.mk
-Project_CSS/msp430_app/targetConfigs/MSP430G2553.ccxml
-Project_CSS/msp430_app/targetConfigs/readme.txt
-Project_CSS/RemoteSystemsTempFiles/.project
+.settings/
