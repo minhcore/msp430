@@ -16,6 +16,9 @@ void BSP_GPIO_Init(void)
 	P1REN |= BUTTON_PIN;
 	P1OUT |= BUTTON_PIN;
 	
+	// Configure p1.6 analog input
+	
+	
 	
 	
 }

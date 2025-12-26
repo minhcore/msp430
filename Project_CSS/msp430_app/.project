@@ -26,9 +26,34 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>app_sensor.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/App/app_sensor.c</locationURI>
+		</link>
+		<link>
+			<name>bsp_adc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Bsp/bsp_adc.c</locationURI>
+		</link>
+		<link>
 			<name>bsp_gpio.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Bsp/bsp_gpio.c</locationURI>
+		</link>
+		<link>
+			<name>bsp_system.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Bsp/bsp_system.c</locationURI>
+		</link>
+		<link>
+			<name>bsp_timer.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Bsp/bsp_timer.c</locationURI>
+		</link>
+		<link>
+			<name>bsp_uart.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Bsp/bsp_uart.c</locationURI>
 		</link>
 		<link>
 			<name>main.c</name>

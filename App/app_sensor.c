@@ -2,19 +2,21 @@
 #include "bsp_uart.h"
 #include "bsp_gpio.h"
 #include "bsp_timer.h"
+#include "bsp_uart.h"
 #include "app_sensor.h"
 #include <msp430.h>
 
-volatile uint16_t g_currentTempRaw = 0; // Biến lưu giá trị thô ADC
+volatile uint16_t x_value_raw;
+volatile uint16_t y_value_raw;
 
-// Hàm phụ trợ: Chuyển số nguyên thành chuỗi và gửi đi
+
 void PrintNumber(uint16_t num)
 {
-    char buf[6]; // Buffer tạm (tối đa 5 chữ số + null)
+    char buf[6]; 
     char *ptr = &buf[5];
     *ptr = '\0';
     
-    // Thuật toán chia lấy dư để tách số
+   
     do {
         *--ptr = (num % 10) + '0';
         num /= 10;
@@ -26,8 +28,8 @@ void PrintNumber(uint16_t num)
 
 void App_Sensor_Init(void)
 {
-	BSP_ADC_Init(); // Khởi tạo ADC
-	BSP_UART_Init(); // Khởi tạo UART
+	BSP_ADC_Init(); 
+	BSP_UART_Init(); 
 	BSP_UART_PutString("System Ready!\r\n");
 }
 
@@ -35,25 +37,27 @@ void App_Sensor_Run(void)
 {
 	uint32_t currentTick = BSP_GetTick();
 	
-	// Đo nhiệt độ (mỗi giây 1 lần)
+	
 	static uint32_t lastMeasureTime = 0;
 	
-	if (currentTick - lastMeasureTime >= 1000)
+	if (currentTick - lastMeasureTime >= 25)
 	{
 		lastMeasureTime = currentTick;
-		BSP_ADC_StartConversion(); // Ra lệnh đo
+		BSP_ADC_StartConversion(); 
 	}
 	
-	// Xử lý kết quả
-	if (BSP_ADC_IsDataReady()) 
+	if (BSP_ADC_IsDataReady())
 	{
-				
-		g_currentTempRaw = BSP_ADC_GetLastValue();
-		BSP_UART_PutString("ADC RAW: ");
-		PrintNumber(g_currentTempRaw);
+		x_value_raw = BSP_ADC_GetLastValue(X_PIN);
+		BSP_UART_PutString("X value: ");
+		PrintNumber(x_value_raw);
+		
+		y_value_raw = BSP_ADC_GetLastValue(Y_PIN);
+		BSP_UART_PutString(" | Y value: ");
+		PrintNumber(y_value_raw);
 		BSP_UART_PutString("\r\n");
-				
-                
-    }
+		
+		BSP_ADC_ClearFlag();
+	}
 	
 }
