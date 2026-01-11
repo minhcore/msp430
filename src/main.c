@@ -1,14 +1,17 @@
 // cppcheck-suppress unusedFunction
 #include <msp430.h>
 
-int sum (int a, int b)
-{
-    return a + b;
-}
-
+#define LED_PIN BIT0
 
 int main (void) 
 {
-    const int arr[5] = {0};
-    return arr[1];
+    WDTCTL = WDTPW + WDTHOLD;
+    P1DIR = LED_PIN;
+    P1OUT = LED_PIN;
+
+    while (1)
+    {
+        P1OUT ^= LED_PIN;
+        __delay_cycles(500000);
+    }
 }

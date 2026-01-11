@@ -22,6 +22,7 @@ MKDIR := $(GIT_USR_BIN)/mkdir.exe -p
 SIZE := $(MSPGCC_BIN_DIR)/msp430-elf-size
 SLEEP := $(GIT_USR_BIN)/sleep.exe
 CPPCHECK = $(CPP_DIR)/cppcheck.exe
+MCU_DEFINE = __MSP430G2553__
 
 # Tool Debug
 GDB_AGENT := $(GDB_AGENT_DIR)/gdb_agent_console.exe
@@ -85,6 +86,7 @@ cppcheck:
 	@$(CPPCHECK) --quiet --enable=all --error-exitcode=1 \
 	--inline-suppr \
 	-I $(INCLUDE_DIRS) \
+	-D $(MCU_DEFINE) \
 	$(SOURCE) \
 	-i external/printf
 
