@@ -1,30 +1,32 @@
-SHELL := "C:/Program\ Files/Git\usr/bin/sh.exe"
 
 # Directories
-MSPGCC_ROOT_DIR = C:\tools
-MSPGCC_BIN_DIR = $(MSPGCC_ROOT_DIR)/bin
-MSPGCC_INCLUDE_DIR = $(MSPGCC_ROOT_DIR)/include
-INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR)
-LIB_DIRS = $(MSPGCC_INCLUDE_DIR)
+TOOLS_PATH ?= C:/tools
+TOOLS_DIR = ${TOOLS_PATH}
+MSPGCC_BIN_DIR = $(TOOLS_DIR)/bin
+MSPGCC_INCLUDE_DIR = $(TOOLS_DIR)/include
 BUILD_DIR = build
 OBJ_DIR = $(BUILD_DIR)/obj
 BIN_DIR = $(BUILD_DIR)/bin
-GDB = msp430-elf-gdb
-GIT_USR_BIN := C:/Program Files/Git/usr/bin
 GDB_AGENT_DIR = $(MSPGCC_BIN_DIR)
-CPP_DIR := C:/Program Files/Cppcheck
+
+LIB_DIRS = $(MSPGCC_INCLUDE_DIR)
+INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) \
+				./src \
+				./external \
+				./
 
 
 # Toolchain
-CC := $(MSPGCC_BIN_DIR)\msp430-elf-gcc
-RM := $(GIT_USR_BIN)/rm.exe -rf
-MKDIR := $(GIT_USR_BIN)/mkdir.exe -p
-SIZE := $(MSPGCC_BIN_DIR)/msp430-elf-size
-SLEEP := $(GIT_USR_BIN)/sleep.exe
-CPPCHECK = $(CPP_DIR)/cppcheck.exe
+CC = $(MSPGCC_BIN_DIR)/msp430-elf-gcc
+RM = rm -rf
+CPPCHECK = cppcheck
+SIZE = $(MSPGCC_BIN_DIR)/msp430-elf-size
+MKDIR = mkdir -p
 MCU_DEFINE = __MSP430G2553__
+TO_WIN_PATH = $(subst /,\,$(1))
 
 # Tool Debug
+GDB = $(GDB_AGENT_DIR)/msp430-elf-gdb
 GDB_AGENT := $(GDB_AGENT_DIR)/gdb_agent_console.exe
 GDB_DAT_FILE := $(GDB_AGENT_DIR)/msp430.dat
 
@@ -70,10 +72,17 @@ clean:
 	$(RM) $(BUILD_DIR)
 
 flash: 
-	@echo "Checking Agent and Flashing..."
-	start "MSP430 GDB Agent" "$(GDB_AGENT)" "$(GDB_DAT_FILE)"
+	@echo "--- Preparing to launch Agent ---"
+	@echo 'start "MSP430 Agent" "$(call TO_WIN_PATH,$(GDB_AGENT))" "$(call TO_WIN_PATH,$(GDB_DAT_FILE))"' > run_agent.bat
+	
+	@echo "Launching GDB Agent..."
+	@cmd.exe /c run_agent.bat
+	
+	
+	@rm run_agent.bat
+	@echo "Agent launched in a new window."
 
-	$(SLEEP) 2
+	@echo "Flashing firmware to device..."
 
 	$(GDB) -batch \
 	-ex "target remote :55000" \
