@@ -3,6 +3,7 @@ TOOLS_PATH ?= C:/tools
 TOOLS_DIR = $(TOOLS_PATH)
 MSPGCC_BIN_DIR = $(TOOLS_DIR)/bin
 MSPGCC_INCLUDE_DIR = $(TOOLS_DIR)/include
+SUPPORT_FILES_PATH ?= /opt/msp430-gcc-support/include
 
 BUILD_DIR = build
 OBJ_DIR = $(BUILD_DIR)/obj
@@ -34,7 +35,7 @@ OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
 
 
 WFLAGS  = -Wall -Wextra -Werror -Wshadow
-CFLAGS  = -mmcu=$(MCU) $(WFLAGS) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
+CFLAGS = -mmcu=msp430g2553 $(WFLAGS) -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
 LDFLAGS = -mmcu=$(MCU) -L$(MSPGCC_INCLUDE_DIR) -Wl,-Map,$(TARGET).map
 
 

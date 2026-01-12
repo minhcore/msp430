@@ -24,5 +24,7 @@ jobs:
         run: make cppcheck TOOLS_PATH=/usr
 
       - name: 2. Compilation (Build)
-        
-        run: make all TOOLS_PATH=/usr
+        run: |
+        make all \
+        TOOLS_PATH=/opt/msp430-gcc-9.3.1.11_linux64 \
+        SUPPORT_FILES_PATH=/opt/msp430-gcc-support/include
