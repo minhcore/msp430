@@ -14,6 +14,11 @@ jobs:
       packages: read
     container:
       image: ghcr.io/minhcore/msp430-ci:latest
+    
+    
+    env:
+      TI_TOOLS: /opt/msp430-gcc-9.3.1.11_linux64
+      TI_SUPPORT: /opt/msp430-gcc-support/include
 
     steps:
       - name: Checkout Source Code
@@ -21,10 +26,8 @@ jobs:
 
       - name: 1. Static Analysis (Cppcheck)
         
-        run: make cppcheck TOOLS_PATH=/usr
+        run: make cppcheck TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
 
       - name: 2. Compilation (Build)
-        run: |
-        make all \
-        TOOLS_PATH=/opt/msp430-gcc-9.3.1.11_linux64 \
-        SUPPORT_FILES_PATH=/opt/msp430-gcc-support/include
+        
+        run: make all TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
