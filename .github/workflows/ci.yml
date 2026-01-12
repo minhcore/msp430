@@ -2,7 +2,7 @@ name: CI Build Pipeline
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main", "master", "feat/CI" ]
   pull_request:
     branches: [ "main", "master" ]
 
@@ -10,40 +10,43 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     
-
     container:
       image: artfulbytes/msp430-gcc-9.3.1.11:latest
     
-    
     env:
-      
       TOOLS_PATH: /opt/msp430-gcc
 
     steps:
-      
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
           submodules: recursive
 
       
+      - name: Debug Folder Structure
+        run: |
+          echo "Listing /opt folder:"
+          ls -R /opt || echo "/opt not found"
+
+      
+      - name: Add Compiler to PATH
+        run: echo "$TOOLS_PATH/bin" >> $GITHUB_PATH
+
+      
       - name: Check Compiler Version
         run: msp430-elf-gcc --version
 
-      
       - name: Build Firmware
         run: make all
 
-      
       - name: Verify Build Output
         run: |
           if [ -f "build/bin/blink.elf" ]; then
-            echo "Build Success! Firmware found."
+            echo "Build Success! Firmware created."
           else
-            echo "Build Failed! Firmware not found."
+            echo "Build Failed! No firmware found."
             exit 1
           fi
 
-      
       - name: Run Cppcheck
         run: make cppcheck
