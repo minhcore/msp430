@@ -4,6 +4,7 @@ TOOLS_DIR = $(TOOLS_PATH)
 MSPGCC_BIN_DIR = $(TOOLS_DIR)/bin
 MSPGCC_INCLUDE_DIR = $(TOOLS_DIR)/include
 SUPPORT_FILES_PATH ?= /opt/msp430-gcc-support/include
+LIB_DIRS = $(MSPGCC_INCLUDE_DIR) $(SUPPORT_FILES_PATH)
 
 BUILD_DIR = build
 OBJ_DIR = $(BUILD_DIR)/obj
@@ -36,7 +37,7 @@ OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
 
 WFLAGS  = -Wall -Wextra -Werror -Wshadow
 CFLAGS = -mmcu=msp430g2553 $(WFLAGS) -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
-LDFLAGS = -mmcu=$(MCU) -L$(MSPGCC_INCLUDE_DIR) -Wl,-Map,$(TARGET).map
+LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS)) -Wl,-Map,$(TARGET).map
 
 
 .PHONY: all clean flash cppcheck 
