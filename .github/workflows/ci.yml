@@ -8,54 +8,50 @@ on:
 
 jobs:
   build-and-test:
-    
     runs-on: ubuntu-latest
 
     steps:
-      
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
           submodules: recursive
 
-      
       - name: Install MSP430-GCC Toolchain
         run: |
-          echo "Downloading Compiler..."
+          echo "⬇️ Downloading Compiler..."
           wget -q http://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSPGCC/9_3_1_2/export/msp430-gcc-9.3.1.11_linux64.tar.bz2
           
-          echo "Extracting..."
+          echo "📦 Extracting..."
           tar -xjf msp430-gcc-9.3.1.11_linux64.tar.bz2
           
-          echo "Setting up Environment..."
-          # Thêm đường dẫn bin vào PATH của Github Actions
-          echo "$(pwd)/msp430-gcc-9.3.1.11_linux64/bin" >> $GITHUB_PATH
+          echo "🔧 Renaming folder to match Makefile..."
+         
+          mv msp430-gcc-9.3.1.11_linux64 msp430-gcc
           
-          # Thiết lập biến TOOLS_PATH cho Makefile (trỏ vào thư mục vừa giải nén)
-          echo "TOOLS_PATH=$(pwd)/msp430-gcc-9.3.1.11_linux64" >> $GITHUB_ENV
+          echo "⚙️ Setting up Environment..."
+          
+          echo "$(pwd)/msp430-gcc/bin" >> $GITHUB_PATH
+          
+          
+          echo "TOOLS_PATH=$(pwd)" >> $GITHUB_ENV
 
-      
       - name: Install Cppcheck
         run: sudo apt-get install -y cppcheck
 
-      
       - name: Check Compiler Version
         run: msp430-elf-gcc --version
 
-      
       - name: Build Firmware
         run: make all
 
-      
       - name: Verify Build Output
         run: |
           if [ -f "build/bin/blink.elf" ]; then
-            echo "✅ Build Success! Firmware created."
+            echo "Build Success! Firmware created."
           else
-            echo "❌ Build Failed! No firmware found."
+            echo "Build Failed! No firmware found."
             exit 1
           fi
 
-      
       - name: Run Cppcheck
         run: make cppcheck
