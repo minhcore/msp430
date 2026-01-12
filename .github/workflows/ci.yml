@@ -28,13 +28,6 @@ jobs:
         
         run: make cppcheck TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
 
-      - name: 1.5 Diagnostic - Find Linker Script
-        
-        run: |
-          echo "Checking support files structure:"
-          ls -R /opt/msp430-gcc-support
-          find /opt -name "msp430g2553.ld"
-
       - name: 2. Compilation (Build)
         
         run: make all TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
