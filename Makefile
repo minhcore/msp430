@@ -64,6 +64,7 @@ cppcheck:
 		--inline-suppr \
 		--suppress=missingIncludeSystem \
 		--suppress=unmatchedSuppression \
+		--suppress=unusedFunction \
 		$(addprefix -I,$(INCLUDE_DIRS)) \
 		-D $(MCU_DEFINE) \
 		$(SOURCE) \
