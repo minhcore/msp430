@@ -70,7 +70,7 @@ cppcheck:
 		$(addprefix -I,$(INCLUDE_DIRS)) \
 		-D $(MCU_DEFINE) \
 		$(SOURCE) \
-		-i external/printf
+		-i external/printf $(SUPPORT_FILES_PATH)
 
 
 TO_WIN_PATH = $(subst /,\,$(1))
