@@ -1,0 +1,33 @@
+name: MSP430 Strict CI
+
+on:
+  push:
+    branches: [ main, develop, feat/CI ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    container:
+      image: ghcr.io/minhcore/msp430-ci:latest
+    
+    
+    env:
+      TI_TOOLS: /opt/msp430-gcc-9.3.1.11_linux64
+      TI_SUPPORT: /opt/msp430-gcc-support/msp430-gcc-support-files/include
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: 1. Static Analysis (Cppcheck)
+        
+        run: make cppcheck TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
+
+      - name: 2. Compilation (Build)
+        
+        run: make all TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}

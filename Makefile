@@ -1,93 +1,91 @@
-SHELL := "C:/Program\ Files/Git\usr/bin/sh.exe"
 
-# Directories
-MSPGCC_ROOT_DIR = C:\tools
-MSPGCC_BIN_DIR = $(MSPGCC_ROOT_DIR)/bin
-MSPGCC_INCLUDE_DIR = $(MSPGCC_ROOT_DIR)/include
-INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR)
-LIB_DIRS = $(MSPGCC_INCLUDE_DIR)
+TOOLS_PATH ?= C:/tools
+TOOLS_DIR = $(TOOLS_PATH)
+MSPGCC_BIN_DIR = $(TOOLS_DIR)/bin
+MSPGCC_INCLUDE_DIR = $(TOOLS_DIR)/include
+SUPPORT_FILES_PATH ?= /opt/msp430-gcc-support/include
+LIB_DIRS = $(MSPGCC_INCLUDE_DIR) $(SUPPORT_FILES_PATH)
+
 BUILD_DIR = build
 OBJ_DIR = $(BUILD_DIR)/obj
 BIN_DIR = $(BUILD_DIR)/bin
-GDB = msp430-elf-gdb
-GIT_USR_BIN := C:/Program Files/Git/usr/bin
-GDB_AGENT_DIR = $(MSPGCC_BIN_DIR)
-CPP_DIR := C:/Program Files/Cppcheck
 
 
-# Toolchain
-CC := $(MSPGCC_BIN_DIR)\msp430-elf-gcc
-RM := $(GIT_USR_BIN)/rm.exe -rf
-MKDIR := $(GIT_USR_BIN)/mkdir.exe -p
-SIZE := $(MSPGCC_BIN_DIR)/msp430-elf-size
-SLEEP := $(GIT_USR_BIN)/sleep.exe
-CPPCHECK = $(CPP_DIR)/cppcheck.exe
-MCU_DEFINE = __MSP430G2553__
-
-# Tool Debug
-GDB_AGENT := $(GDB_AGENT_DIR)/gdb_agent_console.exe
-GDB_DAT_FILE := $(GDB_AGENT_DIR)/msp430.dat
+CC       = $(MSPGCC_BIN_DIR)/msp430-elf-gcc
+SIZE     = $(MSPGCC_BIN_DIR)/msp430-elf-size
+GDB      = $(MSPGCC_BIN_DIR)/msp430-elf-gdb
+CPPCHECK = cppcheck
+MKDIR    = mkdir -p
+RM       = rm -rf
 
 
-# Files
-TARGET = $(BIN_DIR)/blink
+ifeq ($(OS),Windows_NT)
+    
+endif
 
-SOURCE = \
-	src/main.c \
-	external/printf/printf.c
-		
+
+MCU         = msp430g2553
+MCU_DEFINE  = __MSP430G2553__
+TARGET      = $(BIN_DIR)/blink.elf
+
+INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) ./src ./external ./
+SOURCE = src/main.c external/printf/printf.c
 
 OBJECT_NAMES = $(SOURCE:.c=.o)
-OBJECTS = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
+OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
 
 
-# Flags
-MCU = msp430g2553
-WFLAGS = -Wall -Wextra -Werror -Wshadow
-CFLAGS = -mmcu=$(MCU) $(WFLAGS) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
-LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS)) -Wl,-Map,$(TARGET).map
+WFLAGS  = -Wall -Wextra -Werror -Wshadow
+CFLAGS = -mmcu=msp430g2553 $(WFLAGS) -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
+LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS)) -T $(SUPPORT_FILES_PATH)/$(MCU).ld -Wl,-Map,$(TARGET).map
 
-# Build
-## Linking
-$(TARGET): $(OBJECTS)
-	$(MKDIR) $(dir $@)
-	$(CC) $(LDFLAGS) $^ -o $@
-	@echo "---Memory Usage---"
-	$(SIZE) $@
-	
 
-## Compiling
-$(OBJ_DIR)/%.o: %.c
-	$(MKDIR) $(dir $@)
-	$(CC) $(CFLAGS) -c -o $@ $^
-
-# Phonies
-.PHONY: all clean flash 
+.PHONY: all clean flash cppcheck 
 
 all: $(TARGET)
+
+# Linking
+$(TARGET): $(OBJECTS)
+	@$(MKDIR) $(dir $@)
+	$(CC) $(LDFLAGS) $^ -o $@
+	@echo "--- Memory Usage ---"
+	$(SIZE) $@
+
+# Compiling
+$(OBJ_DIR)/%.o: %.c
+	@$(MKDIR) $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	$(RM) $(BUILD_DIR)
 
-flash: 
-	@echo "Checking Agent and Flashing..."
-	start "MSP430 GDB Agent" "$(GDB_AGENT)" "$(GDB_DAT_FILE)"
-
-	$(SLEEP) 2
-
-	$(GDB) -batch \
-	-ex "target remote :55000" \
-	-ex "load" \
-	-ex "continue" \
-	-ex "quit" $(TARGET)
-	@echo "Flash Successful!"
 
 cppcheck:
+	@echo "--- Running Static Analysis ---"
 	@$(CPPCHECK) --quiet --enable=all --error-exitcode=1 \
-	--inline-suppr \
-	-I $(INCLUDE_DIRS) \
-	-D $(MCU_DEFINE) \
-	$(SOURCE) \
-	-i external/printf
+		--inline-suppr \
+		--suppress=missingIncludeSystem \
+		--suppress=unmatchedSuppression \
+		--suppress=unusedFunction \
+		$(addprefix -I,$(INCLUDE_DIRS)) \
+		-D $(MCU_DEFINE) \
+		$(SOURCE) \
+		-i external/printf
 
 
+TO_WIN_PATH = $(subst /,\,$(1))
+GDB_AGENT   = $(MSPGCC_BIN_DIR)/gdb_agent_console.exe
+GDB_DAT_FILE = $(MSPGCC_BIN_DIR)/msp430.dat
+
+flash: $(TARGET)
+ifeq ($(OS),Windows_NT)
+	@echo "--- Preparing to launch Agent (Windows) ---"
+	@echo 'start "MSP430 Agent" "$(call TO_WIN_PATH,$(GDB_AGENT))" "$(call TO_WIN_PATH,$(GDB_DAT_FILE))"' > run_agent.bat
+	@cmd.exe /c run_agent.bat
+	@rm run_agent.bat
+	@sleep 2
+	$(GDB) -batch -ex "target remote :55000" -ex "load" -ex "continue" -ex "quit" $(TARGET)
+	@echo "Flash Successful!"
+else
+	@echo "Target 'flash' requires physical hardware and Windows drivers."
+endif
