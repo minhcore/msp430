@@ -24,6 +24,7 @@ SIZE = $(MSPGCC_BIN_DIR)/msp430-elf-size
 MKDIR = mkdir -p
 MCU_DEFINE = __MSP430G2553__
 TO_WIN_PATH = $(subst /,\,$(1))
+SLEEP = sleep
 
 # Tool Debug
 GDB = $(GDB_AGENT_DIR)/msp430-elf-gdb
@@ -32,7 +33,7 @@ GDB_DAT_FILE := $(GDB_AGENT_DIR)/msp430.dat
 
 
 # Files
-TARGET = $(BIN_DIR)/blink
+TARGET = $(BIN_DIR)/blink.elf
 
 SOURCE = \
 	src/main.c \
@@ -83,6 +84,8 @@ flash:
 	@echo "Agent launched in a new window."
 
 	@echo "Flashing firmware to device..."
+
+	@$(SLEEP) 2
 
 	$(GDB) -batch \
 	-ex "target remote :55000" \

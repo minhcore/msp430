@@ -1,0 +1,19 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    make \
+    cppcheck \
+    wget \
+    bzip2 \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /tmp
+RUN wget -q http://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSPGCC/9_3_1_2/export/msp430-gcc-9.3.1.11_linux64.tar.bz2 \
+    && tar -xjf msp430-gcc-9.3.1.11_linux64.tar.bz2 -C /opt/ \
+    && mv /opt/msp430-gcc-9.3.1.11_linux64 /opt/msp430-gcc \
+    && rm msp430-gcc-9.3.1.11_linux64.tar.bz2
+
+ENV PATH="/opt/msp430-gcc/bin:${PATH}"
+
+WORKDIR /project

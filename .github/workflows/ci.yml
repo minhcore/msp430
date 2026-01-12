@@ -1,0 +1,49 @@
+name: CI Build Pipeline
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+
+    container:
+      image: artfulbytes/msp430-gcc-9.3.1.11:latest
+    
+    
+    env:
+      
+      TOOLS_PATH: /opt/msp430-gcc
+
+    steps:
+      
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      
+      - name: Check Compiler Version
+        run: msp430-elf-gcc --version
+
+      
+      - name: Build Firmware
+        run: make all
+
+      
+      - name: Verify Build Output
+        run: |
+          if [ -f "build/bin/blink.elf" ]; then
+            echo "Build Success! Firmware found."
+          else
+            echo "Build Failed! Firmware not found."
+            exit 1
+          fi
+
+      
+      - name: Run Cppcheck
+        run: make cppcheck
