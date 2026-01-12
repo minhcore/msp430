@@ -62,6 +62,8 @@ cppcheck:
 	@echo "--- Running Static Analysis ---"
 	@$(CPPCHECK) --quiet --enable=all --error-exitcode=1 \
 		--inline-suppr \
+		--suppress=missingIncludeSystem \
+		--suppress=unmatchedSuppression \
 		$(addprefix -I,$(INCLUDE_DIRS)) \
 		-D $(MCU_DEFINE) \
 		$(SOURCE) \
