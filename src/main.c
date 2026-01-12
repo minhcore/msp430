@@ -1,7 +1,7 @@
 // cppcheck-suppress unusedFunction
 #include <msp430.h>
 
-#define LED_PIN BIT6
+#define LED_PIN BIT0
 
 int main (void) 
 {

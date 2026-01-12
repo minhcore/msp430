@@ -1,56 +1,28 @@
-name: CI Build Pipeline
+name: MSP430 Strict CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ main, develop, feat/CI ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ main ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    container:
+      image: ghcr.io/minhcore/msp430-ci:latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
 
-      - name: Install MSP430-GCC Toolchain
-        run: |
-          echo "⬇Downloading Compiler..."
-          wget -q http://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSPGCC/9_3_1_2/export/msp430-gcc-9.3.1.11_linux64.tar.bz2
-          
-          echo "Extracting..."
-          tar -xjf msp430-gcc-9.3.1.11_linux64.tar.bz2
-          
-          echo "Renaming folder..."
-          mv msp430-gcc-9.3.1.11_linux64 msp430-gcc
-          
-          echo "Setting up Environment..."
-          
-          echo "$(pwd)/msp430-gcc/bin" >> $GITHUB_PATH
-          
-          
-          echo "TOOLS_PATH=$(pwd)/msp430-gcc" >> $GITHUB_ENV
-
-      - name: Install Cppcheck
-        run: sudo apt-get install -y cppcheck
-
-      - name: Check Compiler Version
-        run: msp430-elf-gcc --version
-
-      - name: Build Firmware
-        run: make all
-
-      - name: Verify Build Output
-        run: |
-          if [ -f "build/bin/blink.elf" ]; then
-            echo "Build Success! Firmware created."
-          else
-            echo "Build Failed! No firmware found."
-            exit 1
-          fi
-
-      - name: Run Cppcheck
+      - name: 1. Static Analysis (Cppcheck)
+        
         run: make cppcheck
+
+      - name: 2. Compilation (Build)
+        
+        run: make all TOOLS_PATH=/usr
