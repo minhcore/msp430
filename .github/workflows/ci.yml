@@ -18,22 +18,21 @@ jobs:
 
       - name: Install MSP430-GCC Toolchain
         run: |
-          echo "⬇️ Downloading Compiler..."
+          echo "⬇Downloading Compiler..."
           wget -q http://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSPGCC/9_3_1_2/export/msp430-gcc-9.3.1.11_linux64.tar.bz2
           
-          echo "📦 Extracting..."
+          echo "Extracting..."
           tar -xjf msp430-gcc-9.3.1.11_linux64.tar.bz2
           
-          echo "🔧 Renaming folder to match Makefile..."
-         
+          echo "Renaming folder..."
           mv msp430-gcc-9.3.1.11_linux64 msp430-gcc
           
-          echo "⚙️ Setting up Environment..."
+          echo "Setting up Environment..."
           
           echo "$(pwd)/msp430-gcc/bin" >> $GITHUB_PATH
           
           
-          echo "TOOLS_PATH=$(pwd)" >> $GITHUB_ENV
+          echo "TOOLS_PATH=$(pwd)/msp430-gcc" >> $GITHUB_ENV
 
       - name: Install Cppcheck
         run: sudo apt-get install -y cppcheck
