@@ -18,7 +18,7 @@ jobs:
     
     env:
       TI_TOOLS: /opt/msp430-gcc-9.3.1.11_linux64
-      TI_SUPPORT: /opt/msp430-gcc-support/include
+      TI_SUPPORT: /opt/msp430-gcc-support/msp430-gcc-support-files/include
 
     steps:
       - name: Checkout Source Code
@@ -34,7 +34,7 @@ jobs:
           echo "Checking support files structure:"
           ls -R /opt/msp430-gcc-support
           find /opt -name "msp430g2553.ld"
-          
+
       - name: 2. Compilation (Build)
         
         run: make all TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
