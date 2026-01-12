@@ -21,7 +21,7 @@ jobs:
 
       - name: 1. Static Analysis (Cppcheck)
         
-        run: make cppcheck
+        run: make cppcheck TOOLS_PATH=/usr
 
       - name: 2. Compilation (Build)
         
