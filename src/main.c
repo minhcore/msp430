@@ -4,7 +4,7 @@
 
 int main(void)
 {
-                     WDTCTL = WDTPW + WDTHOLD;
+    WDTCTL = WDTPW + WDTHOLD;
     P1DIR = LED_PIN;
     P1OUT = LED_PIN;
 

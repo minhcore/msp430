@@ -29,9 +29,11 @@ MCU         = msp430g2553
 MCU_DEFINE  = __MSP430G2553__
 TARGET      = $(BIN_DIR)/blink.elf
 
-SRC_FILES = $(shell find src -name "*.c")
+
 INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) ./src ./external ./
-SOURCE = $(SRC_FILES) external/printf/printf.c
+SOURCE = \
+	src/main.c \
+
 
 OBJECT_NAMES = $(SOURCE:.c=.o)
 OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
