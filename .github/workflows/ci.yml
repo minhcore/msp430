@@ -28,7 +28,12 @@ jobs:
 
       - name: Checking format
 
-        run: make format && git diff --quiet
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+          make format
+
+          git diff --quiet || (echo "Error: Code is not formatted according to style guide. Run 'make format' locally." && exit 1)
 
       - name: Static Analysis (Cppcheck)
         
