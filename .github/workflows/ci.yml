@@ -24,10 +24,14 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: 1. Static Analysis (Cppcheck)
+      - name: Checking fomat
+
+        run: make format && git diff --quiet
+
+      - name: Static Analysis (Cppcheck)
         
         run: make cppcheck TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
 
-      - name: 2. Compilation (Build)
+      - name: Compilation (Build)
         
         run: make all TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
