@@ -28,13 +28,8 @@ jobs:
 
       - name: Checking format
 
-        run: |
-          git config --global --add safe.directory '*'
-
-          make format TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
-
-          git diff --quiet || (echo "Error: Code is not formatted according to style guide. Run 'make format' locally." && exit 1)
-
+        run: make format && git diff --quiet
+    
       - name: Static Analysis (Cppcheck)
         
         run: make cppcheck TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
