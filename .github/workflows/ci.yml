@@ -24,6 +24,11 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
+      - name: Diagnostic - Check Tools
+        run: |
+          which clang-format || echo "clang-format NOT FOUND"
+          clang-format --version || echo "Cannot execute clang-format"
+
       - name: Checking fomat
 
         run: make format && git diff --quiet
