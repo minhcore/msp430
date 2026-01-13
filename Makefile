@@ -15,6 +15,7 @@ CC       = $(MSPGCC_BIN_DIR)/msp430-elf-gcc
 SIZE     = $(MSPGCC_BIN_DIR)/msp430-elf-size
 GDB      = $(MSPGCC_BIN_DIR)/msp430-elf-gdb
 CPPCHECK = cppcheck
+FORMAT	 = clang-format
 MKDIR    = mkdir -p
 RM       = rm -rf
 
@@ -28,8 +29,11 @@ MCU         = msp430g2553
 MCU_DEFINE  = __MSP430G2553__
 TARGET      = $(BIN_DIR)/blink.elf
 
+
 INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) ./src ./external ./
-SOURCE = src/main.c external/printf/printf.c
+SOURCE = \
+	src/main.c \
+
 
 OBJECT_NAMES = $(SOURCE:.c=.o)
 OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
@@ -40,7 +44,7 @@ CFLAGS = -mmcu=msp430g2553 $(WFLAGS) -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(IN
 LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS)) -T $(SUPPORT_FILES_PATH)/$(MCU).ld -Wl,-Map,$(TARGET).map
 
 
-.PHONY: all clean flash cppcheck 
+.PHONY: all clean flash cppcheck format
 
 all: $(TARGET)
 
@@ -76,6 +80,10 @@ cppcheck:
 TO_WIN_PATH = $(subst /,\,$(1))
 GDB_AGENT   = $(MSPGCC_BIN_DIR)/gdb_agent_console.exe
 GDB_DAT_FILE = $(MSPGCC_BIN_DIR)/msp430.dat
+
+format:
+	@$(FORMAT) -i $(SOURCE)
+
 
 flash: $(TARGET)
 ifeq ($(OS),Windows_NT)
