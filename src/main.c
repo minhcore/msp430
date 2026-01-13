@@ -2,7 +2,7 @@
 
 #define LED_PIN BIT6
 
-int main (void) 
+int main(void)
 {
                                             WDTCTL = WDTPW + WDTHOLD;
     P1DIR = LED_PIN;
