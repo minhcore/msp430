@@ -14,7 +14,6 @@ jobs:
       packages: read
     container:
       image: ghcr.io/minhcore/msp430-ci:latest
-      options: --pull always
     
     
     env:
