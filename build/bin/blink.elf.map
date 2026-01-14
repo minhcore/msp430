@@ -14,6 +14,18 @@ Discarded input sections
  .comment       0x00000000       0x3a c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/430/crtbegin_no_eh.o
  .data          0x00000000        0x0 build/obj/src/main.o
  .bss           0x00000000        0x0 build/obj/src/main.o
+ .text          0x00000000        0xc build/obj/src/drivers/io.o
+ .data          0x00000000        0x0 build/obj/src/drivers/io.o
+ .bss           0x00000000        0x0 build/obj/src/drivers/io.o
+ .debug_frame   0x00000000       0x64 build/obj/src/drivers/io.o
+ .debug_info    0x00000000      0x265 build/obj/src/drivers/io.o
+ .debug_abbrev  0x00000000       0xd1 build/obj/src/drivers/io.o
+ .debug_loc     0x00000000       0x21 build/obj/src/drivers/io.o
+ .debug_aranges
+                0x00000000       0x20 build/obj/src/drivers/io.o
+ .debug_line    0x00000000       0xd8 build/obj/src/drivers/io.o
+ .debug_str     0x00000000      0x297 build/obj/src/drivers/io.o
+ .comment       0x00000000       0x3a build/obj/src/drivers/io.o
  .text          0x00000000        0x0 c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
  .data          0x00000000        0x0 c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
  .bss           0x00000000        0x0 c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
@@ -57,6 +69,7 @@ Linker script and memory map
 LOAD c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430/crt0.o
 LOAD c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/430/crtbegin_no_eh.o
 LOAD build/obj/src/main.o
+LOAD build/obj/src/drivers/io.o
 LOAD c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/430\libgcc.a
 START GROUP
 LOAD c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/430\libmul_none.a
@@ -268,9 +281,11 @@ __reset_vector  0x0000fffe        0x2
  .MSP430.attributes
                 0x0000002e       0x17 build/obj/src/main.o
  .MSP430.attributes
-                0x00000045       0x17 c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
+                0x00000045       0x17 build/obj/src/drivers/io.o
  .MSP430.attributes
-                0x0000005c       0x17 c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/430/crtend_no_eh.o
+                0x0000005c       0x17 c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
+ .MSP430.attributes
+                0x00000073       0x17 c:/tools/bin/../lib/gcc/msp430-elf/9.3.1/430/crtend_no_eh.o
  *(.gnu.attributes)
  *(__TI_build_attributes)
 

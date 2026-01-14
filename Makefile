@@ -33,7 +33,7 @@ TARGET      = $(BIN_DIR)/blink.elf
 INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) ./src ./external ./
 SOURCE = \
 	src/main.c \
-
+	src/drivers/io.c
 
 OBJECT_NAMES = $(SOURCE:.c=.o)
 OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
