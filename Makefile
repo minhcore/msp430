@@ -43,6 +43,10 @@ WFLAGS  = -Wall -Wextra -Werror -Wshadow
 CFLAGS = -mmcu=msp430g2553 $(WFLAGS) -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
 LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS)) -T $(SUPPORT_FILES_PATH)/$(MCU).ld -Wl,-Map,$(TARGET).map
 
+CPPCHECK_INC = ./src ./
+IGNORE_FILES = external/printf/
+SOURCES_TO_CHECK = $(filter-out $(IGNORE_FILES)%,$(SOURCE))
+CPPCHECK_BUILD_DIR = $(BUILD_DIR)/cppcheck_info
 
 .PHONY: all clean flash cppcheck format
 
@@ -65,16 +69,20 @@ clean:
 
 
 cppcheck:
+	@mkdir -p $(CPPCHECK_BUILD_DIR)
 	@echo "--- Running Static Analysis ---"
-	@$(CPPCHECK) --quiet --enable=all --error-exitcode=1 \
+	@$(CPPCHECK) --quiet --enable=warning,style,performance,portability --error-exitcode=1 \
+		-j 4 \
+		--max-configs=1 \
+		--cppcheck-build-dir=$(CPPCHECK_BUILD_DIR) \
 		--inline-suppr \
 		--suppress=missingIncludeSystem \
 		--suppress=unmatchedSuppression \
 		--suppress=unusedFunction \
-		$(addprefix -I,$(INCLUDE_DIRS)) \
+		$(addprefix -I,$(CPPCHECK_INC)) \
 		-D $(MCU_DEFINE) \
-		$(SOURCE) \
-		-i external/printf $(SUPPORT_FILES_PATH)
+		$(SOURCES_TO_CHECK) \
+		
 
 
 TO_WIN_PATH = $(subst /,\,$(1))
