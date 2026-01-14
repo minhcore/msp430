@@ -1,9 +1,15 @@
+ifeq ($(OS),Windows_NT)
+	TOOLS_PATH ?= C:/tools
+	SUPPORT_FILES_PATH ?= C:/tools/include
+else
+	TOOLS_PATH ?= /opt/msp430-gcc-9.3.1.11_linux64
+	SUPPORT_FILES_PATH ?= /opt/msp430-gcc-support/include
+endif
 
-TOOLS_PATH ?= C:/tools
+
 TOOLS_DIR = $(TOOLS_PATH)
 MSPGCC_BIN_DIR = $(TOOLS_DIR)/bin
 MSPGCC_INCLUDE_DIR = $(TOOLS_DIR)/include
-SUPPORT_FILES_PATH ?= /opt/msp430-gcc-support/include
 LIB_DIRS = $(MSPGCC_INCLUDE_DIR) $(SUPPORT_FILES_PATH)
 
 BUILD_DIR = build
@@ -16,14 +22,8 @@ SIZE     = $(MSPGCC_BIN_DIR)/msp430-elf-size
 GDB      = $(MSPGCC_BIN_DIR)/msp430-elf-gdb
 CPPCHECK = cppcheck
 FORMAT	 = clang-format
-MKDIR    = mkdir -p
-RM       = rm -rf
-
-
-ifeq ($(OS),Windows_NT)
-    
-endif
-
+RM = rm -rf
+MKDIR = mkdir -p
 
 MCU         = msp430g2553
 MCU_DEFINE  = __MSP430G2553__
