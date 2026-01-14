@@ -3,7 +3,7 @@ ifeq ($(OS),Windows_NT)
 	SUPPORT_FILES_PATH ?= C:/tools/include
 else
 	TOOLS_PATH ?= /opt/msp430-gcc-9.3.1.11_linux64
-	SUPPORT_FILES_PATH ?= /opt/msp430-gcc-support/include
+	SUPPORT_FILES_PATH ?= /opt/msp430-gcc-support/msp430-gcc-support-files/include
 endif
 
 
