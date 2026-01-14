@@ -32,8 +32,8 @@ jobs:
     
       - name: Static Analysis (Cppcheck)
         
-        run: make cppcheck TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
+        run: make cppcheck 
 
       - name: Compilation (Build)
         
-        run: make all TOOLS_PATH=${{ env.TI_TOOLS }} SUPPORT_FILES_PATH=${{ env.TI_SUPPORT }}
+        run: make all 
