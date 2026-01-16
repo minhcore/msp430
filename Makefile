@@ -34,8 +34,10 @@ INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) ./src ./external ./
 SOURCE = \
 	src/main.c \
 	src/drivers/io.c \
-	src/drivers/io.h \
 	src/drivers/mcu_init.c \
+
+H_SOURCE = \
+	src/drivers/io.h \
 	src/drivers/mcu_init.h \
 	
 
@@ -94,7 +96,7 @@ GDB_AGENT   = $(MSPGCC_BIN_DIR)/gdb_agent_console.exe
 GDB_DAT_FILE = $(MSPGCC_BIN_DIR)/msp430.dat
 
 format:
-	@$(FORMAT) -i $(SOURCE)
+	@$(FORMAT) -i $(SOURCE) $(H_SOURCE)
 
 
 flash: $(TARGET)
