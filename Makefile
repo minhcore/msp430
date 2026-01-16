@@ -34,7 +34,10 @@ INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) ./src ./external ./
 SOURCE = \
 	src/main.c \
 	src/drivers/io.c \
-	src/drivers/mcu_init.c
+	src/drivers/io.h \
+	src/drivers/mcu_init.c \
+	src/drivers/mcu_init.h \
+	
 
 OBJECT_NAMES = $(SOURCE:.c=.o)
 OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
