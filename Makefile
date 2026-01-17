@@ -50,7 +50,7 @@ OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
 
 
 WFLAGS  = -Wall -Wextra -Werror -Wshadow
-CFLAGS = -mmcu=msp430g2553 $(WFLAGS) -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
+CFLAGS = -mmcu=msp430g2553 $(WFLAGS) -fshort-enums -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
 LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS)) -T $(SUPPORT_FILES_PATH)/$(MCU).ld -Wl,-Map,$(TARGET).map
 
 CPPCHECK_INC = ./src ./

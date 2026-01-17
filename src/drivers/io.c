@@ -1,12 +1,15 @@
 #include "io.h"
 #include "common/defines.h"
+
 #include <stdint.h>
 #include <msp430.h>
+#include <assert.h>
 
 #define IO_PORT_CNT (2u)
 #define IO_PIN_CNT_PER_PORT (8u)
 
-// [Zeros (12 bits) | Ports (1 bits) | pin (3 bits)]
+// [Zeros (4 bits) | Ports (1 bits) | pin (3 bits)]
+static_assert(sizeof(io_generic_e) == 1, "Unexpected size, -fshort-enums missing?");
 #define IO_PORT_OFFSET (3u)
 #define IO_PORT_MASK (0x1u << IO_PORT_OFFSET)
 #define IO_PIN_MASK (0x7u)
