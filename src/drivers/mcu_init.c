@@ -10,4 +10,5 @@ static void watchdog_stop(void)
 void mcu_init(void)
 {
     watchdog_stop();
+    io_init();
 }
