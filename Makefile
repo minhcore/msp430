@@ -35,10 +35,14 @@ SOURCE = \
 	src/main.c \
 	src/drivers/io.c \
 	src/drivers/mcu_init.c \
+	src/common/assert_handler.c \
+	src/drivers/led.c \
 
 H_SOURCE = \
 	src/drivers/io.h \
 	src/drivers/mcu_init.h \
+	src/drivers/led.h \
+	
 	
 
 OBJECT_NAMES = $(SOURCE:.c=.o)
@@ -105,7 +109,7 @@ ifeq ($(OS),Windows_NT)
 	@echo 'start "MSP430 Agent" "$(call TO_WIN_PATH,$(GDB_AGENT))" "$(call TO_WIN_PATH,$(GDB_DAT_FILE))"' > run_agent.bat
 	@cmd.exe /c run_agent.bat
 	@rm run_agent.bat
-	@sleep 2
+	@sleep 1
 	$(GDB) -batch -ex "target remote :55000" -ex "load" -ex "continue" -ex "quit" $(TARGET)
 	@echo "Flash Successful!"
 else
