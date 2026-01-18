@@ -14,6 +14,13 @@ static void test_setup(void)
 }
 
 SUPPRESS_UNUSED
+static void test_assert(void)
+{
+    test_setup();
+    ASSERT(0);
+}
+
+SUPPRESS_UNUSED
 static void test_blink_led(void)
 {
     test_setup();
