@@ -27,12 +27,23 @@ MKDIR = mkdir -p
 
 MCU         = msp430g2553
 MCU_DEFINE  = __MSP430G2553__
-TARGET      = $(BIN_DIR)/blink.elf
 
+ifneq ($(TEST),)
+TARGET_NAME = $(TEST).elf
+MAIN_FILE = src/test/test.c
+$(shell touch src/test/test.c)
+TEST_DEFINE = -DTEST=$(TEST)
+else 
+TARGET_NAME = $(BIN_DIR)/firmware.elf
+MAIN_FILE = src/main.c
+TEST_DEFINE =
+endif
+
+TARGET = $(BIN_DIR)/$(TARGET_NAME)
 
 INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) ./src ./external ./
 SOURCE = \
-	src/main.c \
+	$(MAIN_FILE) \
 	src/drivers/io.c \
 	src/drivers/mcu_init.c \
 	src/common/assert_handler.c \
@@ -50,7 +61,7 @@ OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
 
 
 WFLAGS  = -Wall -Wextra -Werror -Wshadow
-CFLAGS = -mmcu=msp430g2553 $(WFLAGS) -fshort-enums -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
+CFLAGS = -mmcu=$(MCU) $(WFLAGS) -fshort-enums -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) $(TEST_DEFINE) -Og -g
 LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS)) -T $(SUPPORT_FILES_PATH)/$(MCU).ld -Wl,-Map,$(TARGET).map
 
 CPPCHECK_INC = ./src ./
@@ -58,7 +69,7 @@ IGNORE_FILES = external/printf/
 SOURCES_TO_CHECK = $(filter-out $(IGNORE_FILES)%,$(SOURCE))
 CPPCHECK_BUILD_DIR = $(BUILD_DIR)/cppcheck_info
 
-.PHONY: all clean flash cppcheck format
+.PHONY: all clean flash cppcheck format tests
 
 all: $(TARGET)
 
@@ -102,6 +113,9 @@ GDB_DAT_FILE = $(MSPGCC_BIN_DIR)/msp430.dat
 format:
 	@$(FORMAT) -i $(SOURCE) $(H_SOURCE)
 
+tests:
+	@chmod +x tools/build_tests.sh
+	@./tools/build_tests.sh
 
 flash: $(TARGET)
 ifeq ($(OS),Windows_NT)

@@ -8,4 +8,6 @@
 #define ms_TO_CYCLES(ms) ((CYCLES_1MHZ / 1000u) * ms)
 #define BUSY_WAIT_ms(ms) (__delay_cycles(ms_TO_CYCLES(ms)))
 
+#define SUPPRESS_UNUSED __attribute__((unused))
+
 #endif
