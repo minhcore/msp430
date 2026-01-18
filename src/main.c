@@ -5,7 +5,6 @@
 #include "common/defines.h"
 #include "drivers/led.h"
 
-
 int main(void)
 {
     test_blink_led();
