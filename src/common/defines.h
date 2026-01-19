@@ -3,6 +3,7 @@
 
 #define UNUSED(x) (void)(x)
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
+#define INTERRUPT_FUNCTION(vector) void __attribute__((interrupt(vector)))
 
 #define CYCLES_1MHZ (1000000u)
 #define ms_TO_CYCLES(ms) ((CYCLES_1MHZ / 1000u) * ms)
