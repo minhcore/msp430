@@ -1,6 +1,15 @@
 #include "mcu_init.h"
 #include "io.h"
+#include "common/assert_handler.h"
+
 #include <msp430.h>
+
+static void init_clocks(void)
+{
+    ASSERT(CALBC1_1MHZ != 0xFF && CALBC1_16MHZ != 0xFF);
+    BCSCTL1 |= CALBC1_16MHZ;
+    DCOCTL |= CALDCO_16MHZ;
+}
 
 static void watchdog_stop(void)
 {
@@ -10,6 +19,7 @@ static void watchdog_stop(void)
 void mcu_init(void)
 {
     watchdog_stop();
+    init_clocks();
     io_init();
     _enable_interrupts();
 }
