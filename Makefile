@@ -48,11 +48,13 @@ SOURCE = \
 	src/drivers/mcu_init.c \
 	src/common/assert_handler.c \
 	src/drivers/led.c \
+	src/drivers/uart.c
 
 H_SOURCE = \
 	src/drivers/io.h \
 	src/drivers/mcu_init.h \
 	src/drivers/led.h \
+	src/drivers/uart.h
 	
 	
 

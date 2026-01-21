@@ -7,8 +7,8 @@
 static void init_clocks(void)
 {
     ASSERT(CALBC1_1MHZ != 0xFF && CALBC1_16MHZ != 0xFF);
-    BCSCTL1 |= CALBC1_16MHZ;
-    DCOCTL |= CALDCO_16MHZ;
+    BCSCTL1 = CALBC1_16MHZ;
+    DCOCTL = CALDCO_16MHZ;
 }
 
 static void watchdog_stop(void)
