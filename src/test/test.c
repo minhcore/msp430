@@ -34,6 +34,29 @@ static void test_blink_led(void)
 }
 
 SUPPRESS_UNUSED
+static void test_gpio_output_pin(void)
+{
+    test_setup();
+    struct io_config output_config = {
+        .direction = IO_DIR_OUTPUT,
+        .out = IO_OUT_LOW,
+        .resistor = IO_RESISTOR_DISABLED,
+        .select = IO_SELECT_GPIO
+    };
+    for (io_generic_e io = IO_10; io <= IO_27; io++) {
+        io_configure(io, &output_config);
+    }
+
+    while (1) {
+        for (io_generic_e io = IO_10; io <= IO_27; io++) {
+            io_set_out(io, IO_OUT_HIGH);
+            BUSY_WAIT_ms(10);
+            io_set_out(io, IO_OUT_LOW);
+        }
+    }
+}
+
+SUPPRESS_UNUSED
 static void io_11_isr(void)
 {
     led_set(LED_TEST, LED_STATE_ON);
