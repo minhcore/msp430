@@ -120,12 +120,14 @@ tests:
 flash: $(TARGET)
 ifeq ($(OS),Windows_NT)
 	@echo "--- Preparing to launch Agent (Windows) ---"
-	@echo 'start "MSP430 Agent" "$(call TO_WIN_PATH,$(GDB_AGENT))" "$(call TO_WIN_PATH,$(GDB_DAT_FILE))"' > run_agent.bat
+	@echo 'start "MSP430_Agent" "$(call TO_WIN_PATH,$(GDB_AGENT))" "$(call TO_WIN_PATH,$(GDB_DAT_FILE))"' > run_agent.bat
 	@cmd.exe /c run_agent.bat
 	@rm run_agent.bat
 	@sleep 1
-	$(GDB) -batch -ex "target remote :55000" -ex "load" -ex "continue" -ex "quit" $(TARGET)
-	@echo "Flash Successful!"
-else
-	@echo "Target 'flash' requires physical hardware and Windows drivers."
+	$(GDB) -batch \
+		-ex "target remote :55000" \
+		-ex "load" \
+		-ex "continue" \
+		-ex "quit" \
+		$(TARGET)
 endif
