@@ -1,10 +1,38 @@
 #include "uart.h"
+#include "common/ring_buffer.h"
+#include "common/defines.h"
 
 #include <msp430.h>
 #include <stdint.h>
+#include <stdbool.h>
 
-volatile char buffer[64];
-volatile uint8_t buffer_idx = 0;
+#define UART_BUFFER_SIZE (16)
+static uint8_t buffer[UART_BUFFER_SIZE];
+static struct ring_buffer tx_buffer = { .buffer = buffer, .size = UART_BUFFER_SIZE };
+
+static inline void uart_tx_clear_interrupt()
+{
+    IFG2 &= ~UCA0TXIFG;
+}
+
+static inline void uart_tx_enable_interrupt()
+{
+    IE2 |= UCA0TXIE;
+}
+
+static inline void uart_tx_disable_interrupt()
+{
+    IE2 &= ~UCA0TXIE;
+}
+
+INTERRUPT_FUNCTION(USCIAB0TX_VECTOR) isr_uart_tx()
+{
+    if (!empty_ring_buffer(&tx_buffer)) {
+        UCA0TXBUF = ring_buffer_get(&tx_buffer);
+    } else {
+        uart_tx_disable_interrupt();
+    }
+}
 
 void uart_init(void)
 {
@@ -18,29 +46,35 @@ void uart_init(void)
 
     UCA0CTL1 &= ~UCSWRST;
 
-    // use polling first => no enable interrupt
+    IE2 &= ~UCA0TXIE;
 }
 
-void uart_put_char(char c)
+void uart_put_char_polling(char c)
 {
     while (!(IFG2 & UCA0TXIFG)) { };
     UCA0TXBUF = c;
 }
 
+void uart_put_char_interrupt(char c)
+{
+    __disable_interrupt();
+
+    bool hardware_ready = (IFG2 & UCA0TXIFG);
+
+    if (empty_ring_buffer(&tx_buffer) && hardware_ready) {
+        // kickstart
+        UCA0TXBUF = c;
+    } else {
+        ring_buffer_put(&tx_buffer, c);
+        uart_tx_enable_interrupt();
+    }
+
+    __enable_interrupt();
+}
 void uart_put_string(char const *str)
 {
     while (*str) {
-        uart_put_char(*str);
+        uart_put_char_polling(*str);
         str++;
-    }
-}
-
-void uart_get_char(void)
-{
-    while (!(IFG2 & UCA0RXIFG))
-        ;
-    char c = UCA0RXBUF;
-    if (buffer_idx < 64) {
-        buffer[buffer_idx++] = c;
     }
 }

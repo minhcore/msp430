@@ -46,15 +46,17 @@ SOURCE = \
 	$(MAIN_FILE) \
 	src/drivers/io.c \
 	src/drivers/mcu_init.c \
-	src/common/assert_handler.c \
 	src/drivers/led.c \
-	src/drivers/uart.c
+	src/drivers/uart.c \
+	src/common/assert_handler.c \
+	src/common/ring_buffer.c \
 
 H_SOURCE = \
 	src/drivers/io.h \
 	src/drivers/mcu_init.h \
 	src/drivers/led.h \
-	src/drivers/uart.h
+	src/drivers/uart.h \
+	src/common/ring_buffer.h \
 	
 	
 
