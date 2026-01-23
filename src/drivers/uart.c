@@ -1,6 +1,10 @@
 #include "uart.h"
 
 #include <msp430.h>
+#include <stdint.h>
+
+volatile char buffer [64];
+volatile uint8_t buffer_idx = 0;
 
 void uart_init(void)
 {
@@ -23,10 +27,19 @@ void uart_put_char(char c)
     UCA0TXBUF = c;
 }
 
-void uart_put_string(char *str)
+void uart_put_string(char const *str)
 {
     while (*str) {
         uart_put_char(*str);
         str++;
+    }
+}
+
+void uart_get_char(void)
+{
+    while (!(IFG2 & UCA0RXIFG));
+    char c = UCA0RXBUF;
+    if (buffer_idx < 64) {
+        buffer[buffer_idx++] = c;
     }
 }

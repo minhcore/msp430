@@ -14,7 +14,7 @@ int main(void)
     uart_init();
 
     while (1) {
-        uart_put_string("Tuyen Thao yeu minh\n\r");
+        uart_put_string("kkk\n\r");
         BUSY_WAIT_ms(2000);
     }
 }
