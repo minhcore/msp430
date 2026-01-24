@@ -1,6 +1,7 @@
 #include "drivers/io.h"
 #include "drivers/mcu_init.h"
 #include "drivers/led.h"
+#include "drivers/uart.h"
 
 #include "common/assert_handler.h"
 #include "common/defines.h"
@@ -38,12 +39,10 @@ SUPPRESS_UNUSED
 static void test_gpio_output_pin(void)
 {
     test_setup();
-    struct io_config output_config = {
-        .direction = IO_DIR_OUTPUT,
-        .out = IO_OUT_LOW,
-        .resistor = IO_RESISTOR_DISABLED,
-        .select = IO_SELECT_GPIO
-    };
+    struct io_config output_config = { .direction = IO_DIR_OUTPUT,
+                                       .out = IO_OUT_LOW,
+                                       .resistor = IO_RESISTOR_DISABLED,
+                                       .select = IO_SELECT_GPIO };
     for (io_generic_e io = IO_10; io <= IO_27; io++) {
         io_configure(io, &output_config);
     }
@@ -81,9 +80,11 @@ static void test_gpio_input_pin(void)
         if (io == (io_generic_e)IO_TEST_LED) {
             continue;
         }
-        for(uint8_t i=0; i<2; i++) {
-            led_set(LED_TEST, LED_STATE_ON);  BUSY_WAIT_ms(50);
-            led_set(LED_TEST, LED_STATE_OFF); BUSY_WAIT_ms(50);
+        for (uint8_t i = 0; i < 2; i++) {
+            led_set(LED_TEST, LED_STATE_ON);
+            BUSY_WAIT_ms(50);
+            led_set(LED_TEST, LED_STATE_OFF);
+            BUSY_WAIT_ms(50);
         }
         led_set(LED_TEST, LED_STATE_ON);
         // Wait for user to pull pin low
@@ -104,7 +105,6 @@ static void test_gpio_input_pin(void)
         led_set(LED_TEST, LED_STATE_OFF);
         BUSY_WAIT_ms(2000);
     }
-
 }
 
 SUPPRESS_UNUSED
@@ -136,10 +136,35 @@ static void test_io_interrupt(void)
     io_configure_interrupt(IO_20, IO_TRIGGER_FALLING, io_20_isr);
     io_enable_interrupt(IO_11);
     io_enable_interrupt(IO_20);
-    while(1);
+    while (1)
+        ;
 }
 
-int main ()  
+SUPPRESS_UNUSED
+static void test_uart(void)
+{
+    test_setup();
+    __enable_interrupt();
+    while (1) {
+        char c;
+        if (uart_get_char(&c)) {
+            uart_put_char_interrupt(c);
+            uart_put_string("\r\n");
+            switch (c) {
+            case 'o':
+                led_set(LED_TEST, LED_STATE_ON);
+                break;
+            case 'i':
+                led_set(LED_TEST, LED_STATE_OFF);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
+int main()
 {
     TEST();
     ASSERT(0);

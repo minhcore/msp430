@@ -57,7 +57,9 @@ H_SOURCE = \
 	src/drivers/led.h \
 	src/drivers/uart.h \
 	src/common/ring_buffer.h \
-	
+
+TEST_SOURCE = \
+	src/test/test.c \
 	
 
 OBJECT_NAMES = $(SOURCE:.c=.o)
@@ -115,7 +117,7 @@ GDB_AGENT   = $(MSPGCC_BIN_DIR)/gdb_agent_console.exe
 GDB_DAT_FILE = $(MSPGCC_BIN_DIR)/msp430.dat
 
 format:
-	@$(FORMAT) -i $(SOURCE) $(H_SOURCE)
+	@$(FORMAT) -i $(SOURCE) $(H_SOURCE) $(TEST_SOURCE)
 
 tests:
 	@chmod +x tools/build_tests.sh

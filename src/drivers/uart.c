@@ -99,6 +99,7 @@ bool uart_get_char(char *c)
 {
     __disable_interrupt();
     if (empty_ring_buffer(&rx_buffer)) {
+        __enable_interrupt();
         return false;
     } else {
         *c = ring_buffer_get(&rx_buffer);

@@ -16,6 +16,6 @@ void assert_handler(void)
 
     while (1) {
         P1OUT ^= BIT0;
-        BUSY_WAIT_ms(250);
+        BUSY_WAIT_ms(100);
     }
 }
