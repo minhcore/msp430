@@ -24,7 +24,5 @@ void mcu_init(void)
     watchdog_stop();
     init_clocks();
     io_init();
-    led_init();
-    uart_init();
     _enable_interrupts();
 }

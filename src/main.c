@@ -12,5 +12,14 @@ int main(void)
 {
     mcu_init();
 
-    while (1) { }
+    while (1) {
+        _putchar('D');
+        _putchar('a');
+        _putchar('n');
+        _putchar('g');
+        _putchar('M');
+        _putchar('\n');
+        _putchar('\r');
+        BUSY_WAIT_ms(500);
+    }
 }

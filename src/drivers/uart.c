@@ -1,12 +1,13 @@
 #include "uart.h"
 #include "common/ring_buffer.h"
 #include "common/defines.h"
+#include "common/assert_handler.h"
 
 #include <msp430.h>
 #include <stdint.h>
 #include <stdbool.h>
 
-#define UART_BUFFER_SIZE (16)
+#define UART_BUFFER_SIZE (64)
 static uint8_t buffer_t[UART_BUFFER_SIZE];
 static uint8_t buffer_r[UART_BUFFER_SIZE];
 static struct ring_buffer tx_buffer = { .buffer = buffer_t, .size = UART_BUFFER_SIZE };
@@ -49,7 +50,7 @@ INTERRUPT_FUNCTION(USCIAB0RX_VECTOR) isr_uart_rx()
     }
 }
 
-void uart_init(void)
+static void uart_configure(void)
 {
     UCA0CTL1 |= UCSWRST;
     // Use SMCLK clock
@@ -61,17 +62,20 @@ void uart_init(void)
 
     UCA0CTL1 &= ~UCSWRST;
 
-    uart_tx_disable_interrupt();
     uart_rx_enable_interrupt();
 }
 
-void uart_put_char_polling(char c)
+static bool initialized = false;
+void uart_init(void)
 {
-    while (!(IFG2 & UCA0TXIFG)) { };
-    UCA0TXBUF = c;
+    ASSERT(!initialized);
+    uart_configure();
+    uart_tx_clear_interrupt();
+    uart_tx_enable_interrupt();
+    initialized = true;
 }
 
-void uart_put_char_interrupt(char c)
+void _putchar(char c)
 {
     __disable_interrupt();
 
@@ -87,13 +91,6 @@ void uart_put_char_interrupt(char c)
 
     __enable_interrupt();
 }
-void uart_put_string(char const *str)
-{
-    while (*str) {
-        uart_put_char_interrupt(*str);
-        str++;
-    }
-}
 
 bool uart_get_char(char *c)
 {
@@ -106,4 +103,25 @@ bool uart_get_char(char *c)
     }
     __enable_interrupt();
     return true;
+}
+
+void uart_init_assert(void)
+{
+    uart_tx_disable_interrupt();
+    uart_configure();
+}
+
+static void uart_putchar_polling(char c)
+{
+    UCA0TXBUF = c;
+    while (!(IFG2 & UCA0TXIFG)) { }
+}
+
+void uart_trace_assert(const char *string)
+{
+    int i = 0;
+    while (string[i] != '\0') {
+        uart_putchar_polling(string[i]);
+        i++;
+    }
 }
