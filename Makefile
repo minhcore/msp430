@@ -89,6 +89,11 @@ IGNORE_FILES = external/printf/
 SOURCES_TO_CHECK = $(filter-out $(IGNORE_FILES)%,$(SOURCE))
 CPPCHECK_BUILD_DIR = $(BUILD_DIR)/cppcheck_info
 
+IGNORE_FILES_FORMAT_CPPCHECK = \
+	external/printf/printf.h \
+	external/printf/printf.c
+SOURCES_FORMAT_CPPCHECK = $(filter-out $(IGNORE_FILES_FORMAT_CPPCHECK),$(SOURCES))
+
 .PHONY: all clean flash cppcheck format tests terminal
 
 all: $(TARGET)
@@ -131,7 +136,7 @@ GDB_AGENT   = $(MSPGCC_BIN_DIR)/gdb_agent_console.exe
 GDB_DAT_FILE = $(MSPGCC_BIN_DIR)/msp430.dat
 
 format:
-	@$(FORMAT) -i $(SOURCE) $(H_SOURCE) $(TEST_SOURCE)
+	@$(FORMAT) -i $(SOURCES_FORMAT_CPPCHECK) $(H_SOURCE) $(TEST_SOURCE)
 
 tests:
 	@chmod +x tools/build_tests.sh
