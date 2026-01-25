@@ -8,18 +8,14 @@
 #include "common/assert_handler.h"
 #include "common/defines.h"
 
+#include "printf/printf.h"
+
 int main(void)
 {
     mcu_init();
+    uart_init();
 
     while (1) {
-        _putchar('D');
-        _putchar('a');
-        _putchar('n');
-        _putchar('g');
-        _putchar('M');
-        _putchar('\n');
-        _putchar('\r');
-        BUSY_WAIT_ms(500);
+        
     }
 }

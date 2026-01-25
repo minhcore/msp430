@@ -63,6 +63,7 @@ static void uart_configure(void)
     UCA0CTL1 &= ~UCSWRST;
 
     uart_rx_enable_interrupt();
+    uart_tx_disable_interrupt();
 }
 
 static bool initialized = false;
@@ -70,8 +71,6 @@ void uart_init(void)
 {
     ASSERT(!initialized);
     uart_configure();
-    uart_tx_clear_interrupt();
-    uart_tx_enable_interrupt();
     initialized = true;
 }
 
