@@ -23,6 +23,7 @@ SIZE     = $(MSPGCC_BIN_DIR)/msp430-elf-size
 GDB      = $(MSPGCC_BIN_DIR)/msp430-elf-gdb
 CPPCHECK = cppcheck
 FORMAT	 = clang-format
+ADDR2LINE = $(MSPGCC_BIN_DIR)/msp430-elf-addr2line
 RM = rm -rf
 MKDIR = mkdir -p
 
@@ -161,3 +162,6 @@ terminal:
 ifeq ($(OS),Windows_NT)
 	"$(PLINK)" -serial $(SERIAL_PORT) -sercfg $(BAUD),8,n,1,N
 endif
+
+addr2line: $(TARGET)
+	@$(ADDR2LINE) -e $(TARGET) $(ADDR)

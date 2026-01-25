@@ -1,6 +1,7 @@
 #include "uart.h"
 #include "common/ring_buffer.h"
 #include "common/defines.h"
+#include "common/assert_handler.h"
 
 #include <msp430.h>
 #include <stdint.h>
@@ -49,7 +50,7 @@ INTERRUPT_FUNCTION(USCIAB0RX_VECTOR) isr_uart_rx()
     }
 }
 
-void uart_init(void)
+static void uart_configure(void)
 {
     UCA0CTL1 |= UCSWRST;
     // Use SMCLK clock
@@ -61,8 +62,17 @@ void uart_init(void)
 
     UCA0CTL1 &= ~UCSWRST;
 
-    uart_tx_disable_interrupt();
     uart_rx_enable_interrupt();
+}
+
+static bool initialized = false;
+void uart_init(void)
+{
+    ASSERT(!initialized);
+    uart_configure();
+    uart_tx_clear_interrupt();
+    uart_tx_enable_interrupt();
+    initialized = true;
 }
 
 void _putchar(char c)
@@ -93,4 +103,25 @@ bool uart_get_char(char *c)
     }
     __enable_interrupt();
     return true;
+}
+
+void uart_init_assert(void)
+{
+    uart_tx_disable_interrupt();
+    uart_configure();
+}
+
+static void uart_putchar_polling(char c)
+{
+    UCA0TXBUF = c;
+    while (!(IFG2 & UCA0TXIFG)) { }
+}
+
+void uart_trace_assert(const char *string)
+{
+    int i = 0;
+    while (string[i] != '\0') {
+        uart_putchar_polling(string[i]);
+        i++;
+    }
 }

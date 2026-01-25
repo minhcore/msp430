@@ -1,13 +1,17 @@
 #ifndef ASSERT_HANDLER_H
 #define ASSERT_HANDLER_H
 
-#define ASSERT(expression) \
-do { \
-        if (!(expression)) { \
-            assert_handler(); \
-        } \
-    } while(0)
+#include <stdint.h>
 
-void assert_handler(void);
+#define ASSERT(expression) \
+    do {                                                                                           \
+        if (!(expression)) {                                                                       \
+            uint16_t pc;                                                                           \
+            asm volatile("mov pc, %0" : "=r"(pc));                                                 \
+            assert_handler(pc);                                                                    \
+        }                                                                                          \
+    } while (0)
+
+void assert_handler(uint16_t program_counter);
 
 #endif
