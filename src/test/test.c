@@ -5,6 +5,9 @@
 
 #include "common/assert_handler.h"
 #include "common/defines.h"
+#include "common/trace.h"
+
+#include "printf/printf.h"
 
 #include <msp430.h>
 #include <stdint.h>
@@ -144,12 +147,15 @@ SUPPRESS_UNUSED
 static void test_uart(void)
 {
     test_setup();
+    uart_init();
+    led_init();
     __enable_interrupt();
     while (1) {
         char c;
         if (uart_get_char(&c)) {
-            uart_put_char_interrupt(c);
-            uart_put_string("\r\n");
+            _putchar(c);
+            _putchar('\r');
+            _putchar('\n');
             switch (c) {
             case 'o':
                 led_set(LED_TEST, LED_STATE_ON);
@@ -161,6 +167,17 @@ static void test_uart(void)
                 break;
             }
         }
+    }
+}
+
+SUPPRESS_UNUSED
+static void test_trace(void)
+{
+    test_setup();
+    trace_init();
+    while (1) {
+        TRACE("Dang Minh %d", 2026);
+        BUSY_WAIT_ms(1000);
     }
 }
 

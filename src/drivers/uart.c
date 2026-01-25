@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define UART_BUFFER_SIZE (16)
+#define UART_BUFFER_SIZE (64)
 static uint8_t buffer_t[UART_BUFFER_SIZE];
 static uint8_t buffer_r[UART_BUFFER_SIZE];
 static struct ring_buffer tx_buffer = { .buffer = buffer_t, .size = UART_BUFFER_SIZE };
@@ -65,13 +65,7 @@ void uart_init(void)
     uart_rx_enable_interrupt();
 }
 
-void uart_put_char_polling(char c)
-{
-    while (!(IFG2 & UCA0TXIFG)) { };
-    UCA0TXBUF = c;
-}
-
-void uart_put_char_interrupt(char c)
+void _putchar(char c)
 {
     __disable_interrupt();
 
@@ -86,13 +80,6 @@ void uart_put_char_interrupt(char c)
     }
 
     __enable_interrupt();
-}
-void uart_put_string(char const *str)
-{
-    while (*str) {
-        uart_put_char_interrupt(*str);
-        str++;
-    }
 }
 
 bool uart_get_char(char *c)

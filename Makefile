@@ -16,6 +16,7 @@ BUILD_DIR = build
 OBJ_DIR = $(BUILD_DIR)/obj
 BIN_DIR = $(BUILD_DIR)/bin
 
+PLINK_DIR ?= E:/PuTTY
 
 CC       = $(MSPGCC_BIN_DIR)/msp430-elf-gcc
 SIZE     = $(MSPGCC_BIN_DIR)/msp430-elf-size
@@ -24,6 +25,10 @@ CPPCHECK = cppcheck
 FORMAT	 = clang-format
 RM = rm -rf
 MKDIR = mkdir -p
+
+PLINK = $(PLINK_DIR)/plink
+SERIAL_PORT ?= COM4
+BAUD ?= 115200
 
 MCU         = msp430g2553
 MCU_DEFINE  = __MSP430G2553__
@@ -40,8 +45,14 @@ TEST_DEFINE =
 endif
 
 TARGET = $(BIN_DIR)/$(TARGET_NAME)
+DEFINE = \
+	$(TEST_DEFINE) \
+	-DPRINTF_INCLUDE_CONFIG_H \
 
-INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) ./src ./external ./
+INCLUDE_DIRS = $(MSPGCC_INCLUDE_DIR) \
+	./src \
+	./external/ \
+	./
 SOURCE = \
 	$(MAIN_FILE) \
 	src/drivers/io.c \
@@ -50,6 +61,8 @@ SOURCE = \
 	src/drivers/uart.c \
 	src/common/assert_handler.c \
 	src/common/ring_buffer.c \
+	src/common/trace.c \
+	external/printf/printf.c \
 
 H_SOURCE = \
 	src/drivers/io.h \
@@ -57,6 +70,7 @@ H_SOURCE = \
 	src/drivers/led.h \
 	src/drivers/uart.h \
 	src/common/ring_buffer.h \
+	src/common/trace.h \
 
 TEST_SOURCE = \
 	src/test/test.c \
@@ -67,7 +81,7 @@ OBJECTS      = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
 
 
 WFLAGS  = -Wall -Wextra -Werror -Wshadow
-CFLAGS = -mmcu=$(MCU) $(WFLAGS) -fshort-enums -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) $(TEST_DEFINE) -Og -g
+CFLAGS = -mmcu=$(MCU) $(WFLAGS) -fshort-enums -I$(SUPPORT_FILES_PATH) $(addprefix -I,$(INCLUDE_DIRS)) $(DEFINE) -Og -g
 LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS)) -T $(SUPPORT_FILES_PATH)/$(MCU).ld -Wl,-Map,$(TARGET).map
 
 CPPCHECK_INC = ./src ./
@@ -75,7 +89,7 @@ IGNORE_FILES = external/printf/
 SOURCES_TO_CHECK = $(filter-out $(IGNORE_FILES)%,$(SOURCE))
 CPPCHECK_BUILD_DIR = $(BUILD_DIR)/cppcheck_info
 
-.PHONY: all clean flash cppcheck format tests
+.PHONY: all clean flash cppcheck format tests terminal
 
 all: $(TARGET)
 
@@ -136,4 +150,9 @@ ifeq ($(OS),Windows_NT)
 		-ex "continue" \
 		-ex "quit" \
 		$(TARGET)
+endif
+
+terminal: 
+ifeq ($(OS),Windows_NT)
+	"$(PLINK)" -serial $(SERIAL_PORT) -sercfg $(BAUD),8,n,1,N
 endif
