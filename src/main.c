@@ -19,15 +19,14 @@ int main(void)
     uint8_t count = 0;
 
     while (count < 16) {
-        if (uart_get_char((char*)&buffer[count])) {
+        if (uart_get_char((char *)&buffer[count])) {
             _putchar(buffer[count]);
             count++;
         }
     }
-        printf("\nNumber:\n");
-        for (uint8_t k = 0; k < 16; k++) {
-            _putchar(buffer[k]);
-        }
-    while (1) {
+    printf("\nNumber:\n");
+    for (uint8_t k = 0; k < 16; k++) {
+        _putchar(buffer[k]);
     }
+    while (1) { }
 }

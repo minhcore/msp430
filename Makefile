@@ -93,7 +93,7 @@ CPPCHECK_BUILD_DIR = $(BUILD_DIR)/cppcheck_info
 IGNORE_FILES_FORMAT_CPPCHECK = \
 	external/printf/printf.h \
 	external/printf/printf.c
-SOURCES_FORMAT_CPPCHECK = $(filter-out $(IGNORE_FILES_FORMAT_CPPCHECK),$(SOURCES))
+SOURCES_FORMAT_CPPCHECK = $(filter-out $(IGNORE_FILES_FORMAT_CPPCHECK),$(SOURCE))
 
 .PHONY: all clean flash cppcheck format tests terminal
 

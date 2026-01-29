@@ -36,10 +36,8 @@ static void assert_blink_led(void)
 
 void assert_handler(uint16_t program_counter)
 {
-    
 
     BREAKPOINT
     assert_trace(program_counter);
     assert_blink_led();
-    
 }
